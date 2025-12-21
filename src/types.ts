@@ -9,6 +9,8 @@ export interface Config {
   checkInterval: number;
   logLevel: LogLevel;
   requestTimeout: number;
+  enableDesktopNotifications: boolean;
+  enableMobileNotifications: boolean;
 }
 
 export interface Message {

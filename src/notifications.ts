@@ -57,9 +57,6 @@ const sendWindowsNotification = (
 /**
  * Send desktop notification on Linux using notify-send
  */
-/**
- * Send desktop notification on Linux using notify-send
- */
 const sendLinuxNotification = (
   title: string,
   message: string,
@@ -83,7 +80,7 @@ const sendLinuxNotification = (
 /**
  * Send native desktop notification based on OS
  */
-export const sendDesktopNotification = async (
+const sendDesktopNotification = async (
   title: string,
   message: string,
   logger: Logger
@@ -156,7 +153,7 @@ export const sendMobileNotification = async (
 };
 
 /**
- * Send notifications on all channels (desktop + mobile)
+ * Send notifications to enabled channels
  */
 export const sendNotifications = async (
   config: Config,
@@ -164,10 +161,17 @@ export const sendNotifications = async (
   message: string,
   logger: Logger
 ): Promise<NotificationResult[]> => {
-  const results = await Promise.all([
-    sendDesktopNotification(title, message, logger),
-    sendMobileNotification(config, title, message, logger),
-  ]);
+  const results: NotificationResult[] = [];
+
+  // Send mobile notification if enabled
+  if (config.enableMobileNotifications) {
+    results.push(await sendMobileNotification(config, title, message, logger));
+  }
+
+  // Send desktop notification if enabled
+  if (config.enableDesktopNotifications) {
+    results.push(await sendDesktopNotification(title, message, logger));
+  }
 
   const successCount = results.filter((r) => r.success).length;
   logger.debug(
