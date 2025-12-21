@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  discord-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: discord-alert-monitor
+    restart: unless-stopped
+    environment:
+      # Load from .env file in your local directory
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_CHANNEL_ID=${DISCORD_CHANNEL_ID}
+      - NTFY_TOPIC=${NTFY_TOPIC}
+      - CHECK_INTERVAL=${CHECK_INTERVAL:-5}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - REQUEST_TIMEOUT=${REQUEST_TIMEOUT:-10}
+    # Optional: Add resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    # Optional: Add health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # Optional: View logs
+    # Run: docker-compose logs -f discord-monitor
