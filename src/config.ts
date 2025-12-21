@@ -19,6 +19,10 @@ export const loadConfig = (): Config => {
   }
 
   const logLevel: LogLevel = (process.env.LOG_LEVEL || "info") as LogLevel;
+  const enableDesktopNotifications =
+    process.env.ENABLE_DESKTOP_NOTIFICATIONS !== "false";
+  const enableMobileNotifications =
+    process.env.ENABLE_MOBILE_NOTIFICATIONS !== "false";
 
   return {
     discordToken,
@@ -27,6 +31,8 @@ export const loadConfig = (): Config => {
     checkInterval: parseInt(process.env.CHECK_INTERVAL || "5", 10),
     logLevel,
     requestTimeout: parseInt(process.env.REQUEST_TIMEOUT || "10", 10),
+    enableDesktopNotifications,
+    enableMobileNotifications,
   };
 };
 

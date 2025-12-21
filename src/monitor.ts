@@ -8,9 +8,11 @@ import { sendNotifications } from "./notifications.js";
 export const processMessage =
   (config: Config, logger: Logger) =>
   async (message: Message): Promise<void> => {
-    logger.info(`New message from ${message.author.username}`);
-    const title = `Discord: ${message.author.username}`;
-    const content = message.content || "(Attachment/Image)";
+    logger.info(`🚨 SIGNAL ALERT from ${message.author.username}`);
+    const title = `🚨 SIGNAL ALERT 🚨`;
+    const content = `${message.author.username}: ${
+      message.content || "(Attachment/Image)"
+    }`;
     await sendNotifications(config, title, content, logger);
   };
 
