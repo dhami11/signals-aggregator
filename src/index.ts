@@ -1,6 +1,6 @@
-import { loadConfig, validateConfig } from "./config";
-import { createLogger } from "./logger";
-import { startMonitor } from "./monitor";
+import { loadConfig, validateConfig } from "./config.js";
+import { createLogger } from "./logger.js";
+import { startMonitor } from "./monitor.js";
 
 /**
  * Main entry point
