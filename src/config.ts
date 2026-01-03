@@ -19,6 +19,7 @@ export const loadConfig = (): Config => {
   }
 
   const logLevel: LogLevel = (process.env.LOG_LEVEL || "info") as LogLevel;
+  const logFormat = (process.env.LOG_FORMAT || "plain") as "plain" | "json";
   const enableDesktopNotifications =
     process.env.ENABLE_DESKTOP_NOTIFICATIONS !== "false";
   const enableMobileNotifications =
@@ -30,6 +31,7 @@ export const loadConfig = (): Config => {
     ntfyTopic,
     checkInterval: parseInt(process.env.CHECK_INTERVAL || "5", 10),
     logLevel,
+    logFormat,
     requestTimeout: parseInt(process.env.REQUEST_TIMEOUT || "10", 10),
     enableDesktopNotifications,
     enableMobileNotifications,
@@ -55,4 +57,7 @@ export const validateConfig = (config: Config): void => {
   if (config.checkInterval < 1) {
     throw new Error("Check interval must be at least 1 second");
   }
+
+  if (config.logFormat !== "plain" && config.logFormat !== "json")
+    throw new Error("LOG_FORMAT must be 'plain' or 'json'");
 };

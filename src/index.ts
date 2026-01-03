@@ -1,6 +1,6 @@
-import { loadConfig, validateConfig } from "./config.js";
-import { createLogger } from "./logger.js";
-import { startMonitor } from "./monitor.js";
+import { loadConfig, validateConfig } from "./config";
+import { createLogger } from "./logger";
+import { startMonitor } from "./monitor";
 
 /**
  * Main entry point
@@ -11,8 +11,17 @@ const main = async (): Promise<void> => {
     const config = loadConfig();
     validateConfig(config);
 
-    // Create logger
-    const logger = createLogger(config.logLevel);
+    // Create logger (pass format so logs can be JSON/human readable)
+    // cast to any to remain compatible with older signatures
+    const logger = (createLogger as any)(config.logLevel, config.logFormat);
+
+    // Log startup config (redacting secrets)
+    logger.info("Starting monitor", {
+      channelId: config.channelId,
+      checkInterval: config.checkInterval,
+      requestTimeout: config.requestTimeout,
+      logFormat: config.logFormat,
+    });
 
     // Start monitor
     await startMonitor(config, logger);

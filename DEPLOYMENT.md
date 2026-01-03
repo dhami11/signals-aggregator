@@ -289,6 +289,7 @@ docker-compose logs  # See error message
 | `NTFY_TOPIC`         | Yes      | `naz-signal-alert` | Mobile notification topic |
 | `CHECK_INTERVAL`     | No       | `5`                | Poll interval (seconds)   |
 | `LOG_LEVEL`          | No       | `info`             | debug, info, warn, error  |
+| `LOG_FORMAT`         | No       | `plain`            | `plain` or `json` output  |
 | `REQUEST_TIMEOUT`    | No       | `10`               | HTTP timeout (seconds)    |
 
 ---

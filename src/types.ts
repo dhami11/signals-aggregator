@@ -8,9 +8,21 @@ export interface Config {
   ntfyTopic: string;
   checkInterval: number;
   logLevel: LogLevel;
+  logFormat: "plain" | "json";
   requestTimeout: number;
   enableDesktopNotifications: boolean;
   enableMobileNotifications: boolean;
+}
+
+export interface LogMeta {
+  [key: string]: any;
+}
+
+export interface Logger {
+  debug: (message: string, meta?: LogMeta) => void;
+  info: (message: string, meta?: LogMeta) => void;
+  warn: (message: string, meta?: LogMeta) => void;
+  error: (message: string, meta?: LogMeta) => void;
 }
 
 export interface Message {
@@ -40,13 +52,6 @@ export interface DiscordApiResponse {
 }
 
 export type LogLevel = "debug" | "info" | "warn" | "error";
-
-export interface Logger {
-  debug: (message: string) => void;
-  info: (message: string) => void;
-  warn: (message: string) => void;
-  error: (message: string) => void;
-}
 
 export interface MonitorState {
   isRunning: boolean;
